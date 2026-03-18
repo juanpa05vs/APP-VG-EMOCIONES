@@ -12,7 +12,7 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ConfiguracionController;
 
 
-Route::get('/', [AuthController::class, 'index'])->name('home');
+Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 Route::get('/juegos', [JuegoController::class, 'index'])->name('juegos.index');
