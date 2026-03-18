@@ -11,9 +11,16 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ConfiguracionController;
 
+Route::get('/', [AuthController::class, 'home'])->name('home');
 
-Route::get('/', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'store'])->name('register.store');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 Route::get('/juegos', [JuegoController::class, 'index'])->name('juegos.index');
 Route::get('/partidas', [PartidaController::class, 'index'])->name('partidas.index');
