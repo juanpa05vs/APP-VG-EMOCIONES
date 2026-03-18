@@ -2,7 +2,7 @@
 
 @section('title', 'Dashboard')
 @section('page-title', 'Dashboard')
-@section('page-description', 'Vista general del sistema')
+@section('page-description', 'Resumen general del sistema')
 
 @section('content')
 <div class="grid-4">
@@ -37,17 +37,23 @@
         <thead>
             <tr>
                 <th>Usuario</th>
-                <th>Juego</th>
-                <th>Emoción</th>
+                <th>Módulo</th>
+                <th>Resultado</th>
                 <th>Hora</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>David Luna</td>
-                <td>Reacción visual</td>
+                <td>Análisis emocional</td>
                 <td>Alegría</td>
                 <td>09:14</td>
+            </tr>
+            <tr>
+                <td>Karol Garfias</td>
+                <td>Reporte</td>
+                <td>Generado</td>
+                <td>10:05</td>
             </tr>
         </tbody>
     </table>

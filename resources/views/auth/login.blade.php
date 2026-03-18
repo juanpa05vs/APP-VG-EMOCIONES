@@ -17,11 +17,24 @@
             <div class="login-right">
                 <h3>Iniciar sesión</h3>
 
-                <form method="POST" action="#">
+                @if (session('success'))
+                    <div style="color:green; margin-bottom:15px;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div style="color:red; margin-bottom:15px;">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login.authenticate') }}" class="form-login">
                     @csrf
+
                     <div class="form-group">
                         <label>Correo</label>
-                        <input type="email" name="email" placeholder="usuario@correo.com">
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="usuario@correo.com">
                     </div>
 
                     <div class="form-group">
@@ -40,6 +53,11 @@
 
                     <button type="submit" class="btn">Entrar al sistema</button>
                 </form>
+
+                <p style="margin-top:15px;">
+                    ¿No tienes cuenta?
+                    <a href="{{ route('register') }}">Regístrate aquí</a>
+                </p>
             </div>
         </div>
     </div>

@@ -5,18 +5,14 @@
 @section('page-description', 'Gestión de usuarios del sistema')
 
 @section('content')
-<div class="grid-2">
-    <div class="card">
-        <h3>Registrar usuario</h3>
-        <form>
+<div class="card">
+    <h3>Registrar usuario</h3>
+
+    <form>
+        <div class="form-grid">
             <div class="form-group">
                 <label>Nombre completo</label>
                 <input type="text" placeholder="Nombre del usuario">
-            </div>
-
-            <div class="form-group">
-                <label>Edad</label>
-                <input type="number" placeholder="16">
             </div>
 
             <div class="form-group">
@@ -27,34 +23,51 @@
             <div class="form-group">
                 <label>Rol</label>
                 <select>
-                    <option>Usuario final</option>
+                    <option>Usuario</option>
                     <option>Administrador</option>
                     <option>Investigador</option>
                 </select>
             </div>
 
-            <button class="btn">Guardar usuario</button>
-        </form>
-    </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" placeholder="Mínimo 8 caracteres">
+            </div>
+        </div>
 
-    <div class="card">
-        <h3>Listado de usuarios</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Rol</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Juan Pablo</td>
-                    <td>Administrador</td>
-                    <td>Activo</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <button type="button" class="btn">Guardar usuario</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Listado de usuarios</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Juan Pablo</td>
+                <td>juanpa05vs@gmail.com</td>
+                <td>Administrador</td>
+                <td>Activo</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Charbel Pérez</td>
+                <td>charbelp3@gmail.com</td>
+                <td>Usuario</td>
+                <td>Activo</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 @endsection
