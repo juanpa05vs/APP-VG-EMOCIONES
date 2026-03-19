@@ -2,37 +2,53 @@
 
 @section('title', 'Dashboard')
 @section('page-title', 'Dashboard')
-@section('page-description', 'Resumen general del sistema')
+@section('page-description', 'Panel general de gestión de información del sistema')
 
 @section('content')
 <div class="grid-4">
     <div class="card">
         <h4>Usuarios</h4>
-        <p class="value">128</p>
-        <span>Registrados en plataforma</span>
+        <p class="value">{{ $metricas['usuarios'] }}</p>
+        <span>Registros en plataforma</span>
     </div>
 
     <div class="card">
         <h4>Partidas</h4>
-        <p class="value">342</p>
-        <span>Sesiones almacenadas</span>
+        <p class="value">{{ $metricas['partidas'] }}</p>
+        <span>Sesiones registradas</span>
+    </div>
+
+    <div class="card">
+        <h4>Análisis</h4>
+        <p class="value">{{ $metricas['analisis'] }}</p>
+        <span>Procesos ejecutados</span>
     </div>
 
     <div class="card">
         <h4>Reportes</h4>
-        <p class="value">316</p>
+        <p class="value">{{ $metricas['reportes'] }}</p>
         <span>Resultados generados</span>
     </div>
+</div>
 
-    <div class="card">
-        <h4>Latencia</h4>
-        <p class="value">2.8 s</p>
-        <span>Tiempo promedio</span>
+<div class="card" style="margin-bottom: 20px;">
+    <h3>Procesos automatizados del sistema</h3>
+
+    <div class="form-grid">
+        @foreach($procesos as $proceso)
+        <div style="background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px; padding:18px;">
+            <h4 style="margin-top:0;">{{ $proceso['titulo'] }}</h4>
+            <p style="margin:0; color:#64748b; line-height:1.6;">
+                {{ $proceso['descripcion'] }}
+            </p>
+        </div>
+        @endforeach
     </div>
 </div>
 
 <div class="card">
     <h3>Actividad reciente</h3>
+
     <table>
         <thead>
             <tr>
@@ -43,18 +59,14 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($actividad as $item)
             <tr>
-                <td>David Luna</td>
-                <td>Análisis emocional</td>
-                <td>Alegría</td>
-                <td>09:14</td>
+                <td>{{ $item['usuario'] }}</td>
+                <td>{{ $item['modulo'] }}</td>
+                <td>{{ $item['resultado'] }}</td>
+                <td>{{ $item['hora'] }}</td>
             </tr>
-            <tr>
-                <td>Karol Garfias</td>
-                <td>Reporte</td>
-                <td>Generado</td>
-                <td>10:05</td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

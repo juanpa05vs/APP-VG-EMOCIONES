@@ -2,94 +2,103 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class UsuarioController extends Controller
 {
-    public function index()
+    private function usuariosDemo()
     {
-        if (!session()->has('user_id')) {
-            return redirect()->route('login');
-        }
-
-        $usuarios = User::orderBy('id', 'desc')->get();
-
-        return view('usuarios.index', compact('usuarios'));
+        return collect([
+            (object) [
+                'id' => 1,
+                'name' => 'Juan Pablo',
+                'email' => 'juanpa05vs@gmail.com',
+                'rol' => 'Administrador',
+                'estado' => 'Activo',
+                'fecha_registro' => '2026-03-10',
+            ],
+            (object) [
+                'id' => 2,
+                'name' => 'Charbel Pérez',
+                'email' => 'charbelp3@gmail.com',
+                'rol' => 'Usuario',
+                'estado' => 'Activo',
+                'fecha_registro' => '2026-03-12',
+            ],
+            (object) [
+                'id' => 3,
+                'name' => 'Karol Garfias',
+                'email' => 'karol@correo.com',
+                'rol' => 'Investigador',
+                'estado' => 'Activo',
+                'fecha_registro' => '2026-03-14',
+            ],
+            (object) [
+                'id' => 4,
+                'name' => 'David Luna',
+                'email' => 'david@correo.com',
+                'rol' => 'Usuario',
+                'estado' => 'Pendiente',
+                'fecha_registro' => '2026-03-16',
+            ],
+        ]);
     }
 
-    public function create()
+    public function index()
     {
-        return redirect()->route('usuarios.index');
+        $usuarios = $this->usuariosDemo();
+
+        $metricas = [
+            'total' => $usuarios->count(),
+            'administradores' => $usuarios->where('rol', 'Administrador')->count(),
+            'investigadores' => $usuarios->where('rol', 'Investigador')->count(),
+            'usuarios' => $usuarios->where('rol', 'Usuario')->count(),
+        ];
+
+        return view('usuarios.index', compact('usuarios', 'metricas'));
     }
 
     public function store(Request $request)
     {
-        if (!session()->has('user_id')) {
-            return redirect()->route('login');
-        }
-
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'rol' => 'required|string|max:50',
+            'email' => 'required|email',
+            'rol' => 'required|string',
             'password' => 'required|min:8',
         ]);
 
-        $data['password'] = Hash::make($data['password']);
-
-        User::create($data);
-
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
+        return redirect()->route('usuarios.index')
+            ->with('success', 'Usuario registrado correctamente.');
     }
 
-    public function edit(User $usuario)
+    public function edit($usuario)
     {
-        if (!session()->has('user_id')) {
-            return redirect()->route('login');
+        $usuario = $this->usuariosDemo()->firstWhere('id', (int) $usuario);
+
+        if (!$usuario) {
+            abort(404);
         }
 
         return view('usuarios.edit', compact('usuario'));
     }
 
-    public function update(Request $request, User $usuario)
+    public function update(Request $request, $usuario)
     {
-        if (!session()->has('user_id')) {
-            return redirect()->route('login');
-        }
-
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users', 'email')->ignore($usuario->id),
-            ],
-            'rol' => 'required|string|max:50',
+            'email' => 'required|email',
+            'rol' => 'required|string',
+            'estado' => 'required|string',
             'password' => 'nullable|min:8',
         ]);
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        } else {
-            unset($data['password']);
-        }
-
-        $usuario->update($data);
-
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('usuarios.index')
+            ->with('success', 'Usuario actualizado correctamente.');
     }
 
-    public function destroy(User $usuario)
+    public function destroy($usuario)
     {
-        if (!session()->has('user_id')) {
-            return redirect()->route('login');
-        }
-
-        $usuario->delete();
-
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('usuarios.index')
+            ->with('success', 'Usuario eliminado correctamente.');
     }
 }

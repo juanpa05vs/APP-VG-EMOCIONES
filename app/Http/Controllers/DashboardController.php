@@ -2,29 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-
 class DashboardController extends Controller
 {
     public function index()
     {
-        if (!session()->has('user_id')) {
-            return redirect()->route('login');
-        }
+        $metricas = [
+            'usuarios' => 128,
+            'partidas' => 342,
+            'analisis' => 316,
+            'reportes' => 94,
+        ];
 
-        $usuariosTotal = User::count();
-        $adminsTotal = User::where('rol', 'Administrador')->count();
-        $investigadoresTotal = User::where('rol', 'Investigador')->count();
-        $usuariosNormalesTotal = User::where('rol', 'Usuario')->count();
+        $actividad = collect([
+            [
+                'usuario' => 'Juan Pablo',
+                'modulo' => 'Usuarios',
+                'resultado' => 'Registro actualizado',
+                'hora' => '09:14'
+            ],
+            [
+                'usuario' => 'Charbel Pérez',
+                'modulo' => 'Partidas',
+                'resultado' => 'Sesión registrada',
+                'hora' => '10:05'
+            ],
+            [
+                'usuario' => 'Karol Garfias',
+                'modulo' => 'Análisis',
+                'resultado' => 'Alegría detectada',
+                'hora' => '11:20'
+            ],
+            [
+                'usuario' => 'Administrador',
+                'modulo' => 'Reportes',
+                'resultado' => 'Reporte generado',
+                'hora' => '12:10'
+            ],
+        ]);
 
-        $usuariosRecientes = User::latest()->take(5)->get();
+        $procesos = collect([
+            [
+                'titulo' => 'Registro de usuarios',
+                'descripcion' => 'Captura y organización de cuentas del sistema.',
+            ],
+            [
+                'titulo' => 'Control de sesiones',
+                'descripcion' => 'Registro estructurado de partidas y eventos.',
+            ],
+            [
+                'titulo' => 'Procesamiento de análisis',
+                'descripcion' => 'Interpretación de información y resultados.',
+            ],
+            [
+                'titulo' => 'Generación de reportes',
+                'descripcion' => 'Producción automatizada de salidas informativas.',
+            ],
+        ]);
 
-        return view('dashboard.index', compact(
-            'usuariosTotal',
-            'adminsTotal',
-            'investigadoresTotal',
-            'usuariosNormalesTotal',
-            'usuariosRecientes'
-        ));
+        return view('dashboard.index', compact('metricas', 'actividad', 'procesos'));
     }
 }
