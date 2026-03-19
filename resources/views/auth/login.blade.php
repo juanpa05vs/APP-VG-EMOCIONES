@@ -6,55 +6,81 @@
     <title>Login - EmotionPlay</title>
     <link rel="stylesheet" href="{{ asset('css/panel.css') }}">
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-left">
-                <h2>Sistema web de monitoreo emocional</h2>
-                <p>Acceso para administradores, investigadores y usuarios del sistema.</p>
+<body class="auth-body">
+    <div class="auth-shell">
+        <div class="auth-card">
+            <div class="auth-left">
+                <div class="auth-badge">EmotionPlay</div>
+                <h1>Iniciar sesión</h1>
+                <p>
+                    Accede al sistema con tus credenciales para entrar al panel
+                    administrativo y navegar por los módulos disponibles.
+                </p>
+
+                <div class="auth-points">
+                    <div>✔ Acceso para administrador, investigador y usuario</div>
+                    <div>✔ Interfaz Laravel para maquetado funcional</div>
+                    <div>✔ Diseño visual más limpio y profesional</div>
+                </div>
             </div>
 
-            <div class="login-right">
-                <h3>Iniciar sesión</h3>
+            <div class="auth-right">
+                <a href="{{ route('home') }}" class="back-link">← Volver al inicio</a>
+
+                <h2>Acceso al sistema</h2>
+                <p class="auth-subtext">Ingresa tus datos para continuar.</p>
 
                 @if (session('success'))
-                    <div style="color:green; margin-bottom:15px;">
+                    <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
                 @endif
 
                 @if ($errors->any())
-                    <div style="color:red; margin-bottom:15px;">
+                    <div class="alert alert-error">
                         {{ $errors->first() }}
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('login.authenticate') }}" class="form-login">
+                <form method="POST" action="{{ route('login.authenticate') }}" class="auth-form">
                     @csrf
 
                     <div class="form-group">
-                        <label>Correo</label>
-                        <input type="email" name="email" value="{{ old('email') }}" placeholder="usuario@correo.com">
+                        <label for="email">Correo electrónico</label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="usuario@correo.com"
+                            required
+                        >
                     </div>
 
                     <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" name="password" placeholder="••••••••">
+                        <label for="password">Contraseña</label>
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            placeholder="Ingresa tu contraseña"
+                            required
+                        >
                     </div>
 
                     <div class="form-group">
-                        <label>Tipo de acceso</label>
-                        <select name="rol">
-                            <option>Administrador</option>
-                            <option>Investigador</option>
-                            <option>Usuario</option>
+                        <label for="rol">Tipo de acceso</label>
+                        <select id="rol" name="rol" required>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Investigador">Investigador</option>
+                            <option value="Usuario">Usuario</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="btn">Entrar al sistema</button>
+                    <button type="submit" class="btn btn-primary btn-full">Entrar al sistema</button>
                 </form>
 
-                <p style="margin-top:15px;">
+                <p class="auth-footer-text">
                     ¿No tienes cuenta?
                     <a href="{{ route('register') }}">Regístrate aquí</a>
                 </p>
